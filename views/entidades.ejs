@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Entidades federativas</title>
+ 
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- DataTables -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+</head>
+<body class="container mt-4">
+
+  <h2>Entidades Table</h2>
+
+  <table id="entidadesTable" class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Abreviatura</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% entidades.forEach(entidad => { %>
+        <tr>
+          <!-- ENFOCARSE EN EL FOREACH  -->
+          <td><%= entidad.id_entidad %></td>
+          <td><%= entidad.nombre_entidad %></td>
+          <td><%= entidad.abreviatura %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+  <!-- DataTables -->
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+  <!-- Init DataTable -->
+  <script>
+    $(document).ready(function () {
+      $('#entidadesTable').DataTable();
+    });
+  </script>
+
+</body>
+</html> 
