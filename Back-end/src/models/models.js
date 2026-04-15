@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const { sequelize } = require('./connection');
+const { sequelize } = require('../connection');
 
 
 
@@ -58,7 +58,7 @@ const alumno = sequelize.define('alumno', {
   id_entidad: {
     type: DataTypes.INTEGER,
     allowNull:false,
-    unique: true
+    unique: false
   }
 }, {
   tableName: 'alumno',
@@ -213,6 +213,120 @@ const tipoCurso = sequelize.define('tipoCurso', {
   timestamps: false
 })
 
+const periodoAcademico = sequelize.define('periodoAcademico', {
+  id_periodo: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true
+  },
+  periodo_nombre: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true
+  },
+  fecha_inicio: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true
+  },
+  fecha_fin: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true
+  }
+}, {
+  tableName: 'periodo_academico',
+  timestamps: true
+
+})
+
+const nivelSemestre = sequelize.define('nivelSemestre', {
+  id_nivel_semestre: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    unique: true
+  },
+  nombre_semestre: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    unique: true
+  }
+}, {
+  tableName: 'nivel_semestre',
+  timestamps: true
+})
+
+const ofertaSemestral = sequelize.define('ofertaSemestral', {
+  id_oferta_semestral: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    unique: true
+  },
+  id_periodo: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    unique: true
+  },
+  id_nivel_semestre: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    unique: true
+  }
+}, {
+  tableName: 'oferta_semestral',
+  timestamps: true
+})
+
+
+const curso = sequelize.curso('curso', {
+  id_curso: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    unique: false
+  },
+  cupo_maximo: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    unique: false
+  },
+  inscritos_actual: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    unique: false
+  },
+  id_profesor: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    unique: false
+  },
+  clave_asignatura: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    unique: false
+  },
+  id_oferta_semestral: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    unique: false
+  },
+  id_tipo_curso: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    unique: false
+  },
+  id_grupo: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    unique: false
+  }
+}, {
+  tableName: 'curso',
+  timestamps: false
+})
+
+
+
+//relaciones 
 
 alumno.belongsTo(EntidadFederativa, {
   foreignKey: 'id_entidad'
@@ -269,5 +383,7 @@ module.exports = {
   EntidadFederativa,
   alumno
 };
+
+
 
 
