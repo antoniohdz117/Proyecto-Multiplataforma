@@ -8,9 +8,12 @@ app.use(express.json());
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/home.html");
+
+
+app.get('/', (req, res) => {
+  res.send('Hello world!');   
 });
+
 //nuevo get para obtener las entidades federativas
 app.get("/entidades", async (req, res) => {
   try {

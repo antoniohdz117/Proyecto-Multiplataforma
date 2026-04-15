@@ -1,6 +1,15 @@
+#next.js
+.next/
+out/
+#para producción
+build/
+dist/
+
 # Node.js
 node_modules/
-package-lock.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # Logs
 logs
@@ -24,4 +33,5 @@ logs
 .node_repl_history
 
 # Environment variables
+.env
 .env*
