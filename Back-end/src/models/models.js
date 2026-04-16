@@ -94,98 +94,116 @@ const EntidadFederativa = sequelize.define(
 
 //VERIFICAR TIPO de Y RELACION
 
-const profesor = sequelize.define("profesor", {
-  id_profesor: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
+const profesor = sequelize.define(
+  "profesor",
+  {
+    id_profesor: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    nombre: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    apellido_paterno: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    apellido_materno: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    curp: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    rfc: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    telefono: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    sexo: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    correo_electronico: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    fecha_nacimiento: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    sueldo: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    all_data_professor: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
   },
-  nombre: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
+  {
+    tableName: "profesor",
   },
-  apellido_paterno: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  apellido_materno: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  curp: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  rfc: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  telefono: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  sexo: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  correo_electronico: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  fecha_nacimiento: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  sueldo: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  all_data_professor: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-});
+);
 
 //ASINATURA
 
-const asignatura = sequelize.define("asignatura", {
-  clave_asignatura: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
+const asignatura = sequelize.define(
+  "asignatura",
+  {
+    clave_asignatura: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+    },
+    nombre: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
   },
-  nombre: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
+  {
+    tableName: "asignatura",
   },
-});
+);
 
 //GRUPO
 
-const grupo = sequelize.define("grupo", {
-  id_grupo: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
+const grupo = sequelize.define(
+  "grupo",
+  {
+    id_grupo: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+    },
+    nombre_grupo: {
+      type: DataTypes.CHAR(4),
+      allowNull: false,
+      unique: true,
+    },
   },
-  nombre_grupo: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
+  {
+    tableName: "grupo",
   },
-});
+);
 
 //tipo_curso
 
@@ -193,7 +211,7 @@ const tipoCurso = sequelize.define(
   "tipoCurso",
   {
     id_tipo_curso: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
       unique: true,
     },
@@ -212,7 +230,7 @@ const periodoAcademico = sequelize.define(
   "periodoAcademico",
   {
     id_periodo: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
       unique: true,
     },
@@ -222,12 +240,12 @@ const periodoAcademico = sequelize.define(
       unique: true,
     },
     fecha_inicio: {
-      type: DataTypes.STRING,
+      type: DataTypes.DATE,
       allowNull: false,
       unique: true,
     },
     fecha_fin: {
-      type: DataTypes.STRING,
+      type: DataTypes.DATE,
       allowNull: false,
       unique: true,
     },
@@ -241,7 +259,7 @@ const nivelSemestre = sequelize.define(
   "nivelSemestre",
   {
     id_nivel_semestre: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: true,
       unique: true,
     },
@@ -343,110 +361,234 @@ const horario = sequelize.define(
       unique: false,
     },
     hora_inicio: {
-      type: DataTypes.DATE,
+      type: DataTypes.TIME,
       allowNull: true,
     },
     hora_fin: {
-      type: DataTypes.DATE,
+      type: DataTypes.TIME,
       allowNull: true,
     },
   },
   {
     tableName: "horario",
-
   },
 );
 
-const salon = sequelize.define('salon', {
-  id_salon: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    unique: true,
+const salon = sequelize.define(
+  "salon",
+  {
+    id_salon: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+    },
+    nombre_salon: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+    },
   },
-  nombre_salon: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    unique: true
-  }
+  {
+    tableName: "salon",
+  },
+);
 
-}, {
-  tableName: 'salon'
-})
+const asignacionCurso =
+  ("asignacionCurso",
+  {
+    id_asignacion_curso: {
+      tupe: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+    },
+    id_horario: {
+      tupe: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+    },
+    id_curso: {
+      tupe: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+    },
+    id_salon: {
+      tupe: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+    },
+  },
+  {
+    tableName: "asignacion_curso",
+  });
 
-const asignacionCurso = ('asignacionCurso', {
-  id_asignacion_curso: {
-    tupe: DataTypes.INTEGER,
-    allowNull: false,
-    unique:true
+const alumnoCurso =
+  ("alumnoCurso",
+  {
+    id_alumno_curso: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+    },
+    primer_parcial: {
+      type: DataTypes.DECIMAL(4, 2),
+      allowNull: false,
+      unique: false,
+    },
+    segundo_parcial: {
+      type: DataTypes.DECIMAL(4, 2),
+      allowNull: false,
+      unique: false,
+    },
+    tercer_parcial: {
+      type: DataTypes.DECIMAL(4, 2),
+      allowNull: false,
+      unique: false,
+    },
+    estatus_evaluacion: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: false,
+    },
+    numero_cuenta: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+    },
+    id_curso: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: false,
+    },
   },
-  id_horario: {
-    tupe: DataTypes.INTEGER,
-    allowNull: false,
-    unique:true
-  },
-  id_curso: {
-    tupe: DataTypes.INTEGER,
-    allowNull: false,
-    unique:true
-  },
-  id_salon: {
-    tupe: DataTypes.INTEGER,
-    allowNull: false,
-    unique:true
-  }
-}, {
-  tableName: 'asignacion_curso'
+  {
+    tableName: "alumno_curso",
+  });
 
-})
+const plantel = sequelize.define(
+  "plantel",
+  {
+    clave_plante: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+    },
+    nombre_plantel: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+  },
+  {
+    tableName: "plantel",
+  },
+);
 
+const credito = sequelize.define(
+  "credito",
+  {
+    id_credito: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    tipo_credito: {
+      type: DataTypes.CHAR(3),
+      allowNull: false,
+      unique: false,
+    },
+    punto_credito: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: false,
+    },
+  },
+  {
+    tableName: "credito",
+  },
+);
 
-const alumnoCurso = ('alumnoCurso', {
-  id_alumno_curso: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    unique: true
+const historial =
+  ("historial",
+  {
+    id_historial: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: false,
+    },
+    folio_acta: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: false,
+    },
+    id_alumno_curso: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: false,
+    },
+    id_credito: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: false,
+    },
+    clave_plantel: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: false,
+    },
+    promedio_final: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: false,
+    },
   },
-  primer_parcial: {
-    type: DataTypes.DECIMAL(4,2),
-    allowNull: false,
-    unique: false
-  },
-  segundo_parcial: {
-    type: DataTypes.DECIMAL(4,2),
-    allowNull: false,
-    unique: false
-  },
-  tercer_parcial: {
-    type: DataTypes.DECIMAL(4,2),
-    allowNull: false,
-    unique: false
-  },
-  estatus_evaluacion: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: false
-  },
-  numero_cuenta: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    unique: true
-  },
-  id_curso: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    unique: false
-  }
-})
-
-
-
+  {
+    tableName: "historial",
+  });
 
 //relaciones
 
+
+//alumno
 alumno.belongsTo(EntidadFederativa, {
   foreignKey: "id_entidad",
 });
 
+//curso
+
+curso.belongsTo(profesor, {
+  foreignKey: "id_profesor",
+});
+
+curso.belongsTo(asignatura, {
+  foreignKey: "clave_asignatura",
+});
+
+curso.belongsTo(ofertaSemestral, {
+  foreignKey: "id_oferta_semestral",
+});
+
+curso.belongsTo(tipoCurso, {
+  foreignKey: "id_tipo_curso",
+});
+
+curso.belongsTo(grupo, {
+  foreignKey: "id_grupo",
+});
+
+
+//asignacion curso
+asignacionCurso.belongsTo(horario, {
+  foreignKey: "id_horario"
+})
+
+
+asignacionCurso.belongsTo(curso, {
+  foreignKey: "id_curso"
+})
+
+asignacionCurso.belongsTo(salon, {
+  foreignKey: "id_salon"
+})
 //EJEMPLO DE RELACION
 
 // const Author = sequelize.define('Author', {
@@ -509,5 +651,5 @@ module.exports = {
   alumnoCurso,
   plantel,
   credito,
-  historial
+  historial,
 };
