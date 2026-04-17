@@ -298,7 +298,7 @@ const ofertaSemestral = sequelize.define(
   },
 );
 
-const curso = sequelize.curso(
+const curso = sequelize.define(
   "curso",
   {
     id_curso: {
@@ -547,7 +547,6 @@ const historial =
 
 //relaciones
 
-
 //alumno
 alumno.belongsTo(EntidadFederativa, {
   foreignKey: "id_entidad",
@@ -575,20 +574,18 @@ curso.belongsTo(grupo, {
   foreignKey: "id_grupo",
 });
 
-
 //asignacion curso
 asignacionCurso.belongsTo(horario, {
-  foreignKey: "id_horario"
-})
-
+  foreignKey: "id_horario",
+});
 
 asignacionCurso.belongsTo(curso, {
-  foreignKey: "id_curso"
-})
+  foreignKey: "id_curso",
+});
 
 asignacionCurso.belongsTo(salon, {
-  foreignKey: "id_salon"
-})
+  foreignKey: "id_salon",
+});
 //EJEMPLO DE RELACION
 
 // const Author = sequelize.define('Author', {
