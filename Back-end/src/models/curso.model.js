@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-const { sequelize } = require("../connection");
+const { sequelize } = require("../config/connection");
 
 const curso = sequelize.define(
   "curso",
@@ -52,17 +52,24 @@ const curso = sequelize.define(
 
 
 
-//asignacion curso
-asignacionCurso.belongsTo(horario, {
-  foreignKey: "id_horario",
+curso.belongsTo(profesor, {
+  foreignKey: "id_profesor",
 });
 
-asignacionCurso.belongsTo(curso, {
-  foreignKey: "id_curso",
+curso.belongsTo(asignatura, {
+  foreignKey: "clave_asignatura",
 });
 
-asignacionCurso.belongsTo(salon, {
-  foreignKey: "id_salon",
+curso.belongsTo(ofertaSemestral, {
+  foreignKey: "id_oferta_semestral",
+});
+
+curso.belongsTo(tipoCurso, {
+  foreignKey: "id_tipo_curso",
+});
+
+curso.belongsTo(grupo, {
+  foreignKey: "id_grupo",
 });
 
 module.exports ={
