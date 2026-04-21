@@ -1,8 +1,8 @@
 const express = require("express");
 const app = express();
 const port = 3000;
-const { sequelize } = require("./connection");
-const { Author, Book, EntidadFederativa, alumno } = require("./models/models");
+const { sequelize } = require("./config/connection");
+const { EntidadFederativa, alumno } = require("./models/models");
 
 app.use(express.json());
 app.set("view engine", "ejs");

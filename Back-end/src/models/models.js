@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-const { sequelize } = require("../connection");
+const { sequelize } = require("../config/connection");
 
 //definicon del modelo de alumno
 const alumno = sequelize.define(
@@ -393,36 +393,35 @@ const salon = sequelize.define(
   },
 );
 
-const asignacionCurso =
-  ("asignacionCurso",
+const asignacionCurso = sequelize.define(
+  "asignacionCurso",
   {
     id_asignacion_curso: {
-      tupe: DataTypes.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false,
       unique: true,
     },
     id_horario: {
-      tupe: DataTypes.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false,
       unique: true,
     },
     id_curso: {
-      tupe: DataTypes.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false,
       unique: true,
     },
     id_salon: {
-      tupe: DataTypes.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false,
       unique: true,
     },
   },
-  {
-    tableName: "asignacion_curso",
-  });
+  { tableName: "asignacion_curso" }
+);
 
-const alumnoCurso =
-  ("alumnoCurso",
+const alumnoCurso = sequelize.define(
+  "alumnoCurso",
   {
     id_alumno_curso: {
       type: DataTypes.INTEGER,
@@ -460,9 +459,8 @@ const alumnoCurso =
       unique: false,
     },
   },
-  {
-    tableName: "alumno_curso",
-  });
+  { tableName: "alumno_curso" }
+);
 
 const plantel = sequelize.define(
   "plantel",
@@ -507,8 +505,8 @@ const credito = sequelize.define(
   },
 );
 
-const historial =
-  ("historial",
+const historial = sequelize.define(
+  "historial",
   {
     id_historial: {
       type: DataTypes.STRING,
@@ -541,9 +539,8 @@ const historial =
       unique: false,
     },
   },
-  {
-    tableName: "historial",
-  });
+  { tableName: "historial" }
+);
 
 //relaciones
 
@@ -586,52 +583,8 @@ asignacionCurso.belongsTo(curso, {
 asignacionCurso.belongsTo(salon, {
   foreignKey: "id_salon",
 });
-//EJEMPLO DE RELACION
-
-// const Author = sequelize.define('Author', {
-//   name: {
-//     type: DataTypes.STRING,
-//     allowNull: false
-//   },
-//   age: {
-//     type: DataTypes.INTEGER,
-//     allowNull: false
-//   },
-//   createdAt: {
-//     type: DataTypes.DATE,
-//     defaultValue: DataTypes.NOW
-//   }
-// }, { tableName: 'authors' });
-
-// const Book = sequelize.define('Book', {
-
-//   isbn: {
-//     type: DataTypes.STRING,
-//     allowNull: false
-//   },
-//   name: {
-//     type: DataTypes.STRING,
-//     allowNull: false
-//   },
-//   cantPages: {
-//     type: DataTypes.INTEGER,
-//     allowNull: false,
-//     defaultValue: 0
-//   },
-//   createdAt: {
-//     type: DataTypes.DATE,
-//     defaultValue: DataTypes.NOW
-//   }
-// }, { tableName: 'books' });
-
-// Author.hasMany(Book, { as: 'books', foreignKey: 'authorId' });
-// Book.belongsTo(Author, {
-//   foreignKey: "authorId",
-// });
 
 module.exports = {
-  Author,
-  Book,
   EntidadFederativa,
   alumno,
   profesor,
