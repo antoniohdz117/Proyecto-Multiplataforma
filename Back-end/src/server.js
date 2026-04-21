@@ -12,8 +12,12 @@ const startServer = async () => {
         console.log("Conexión a la base de datos exitosa");
 
         // 2. Sincronizar modelos (opcional en prod)
-        await sequelize.sync({ alter: false });
-        console.log("Modelos sincronizados");
+        if (process.env.NODE_ENV !== "production") {
+            await sequelize.sync({ alter: false });
+            console.log("Modelos sincronizados");
+        } else {
+            console.log("Sincronización de modelos omitida en producción");
+        }
 
         // 3. Levantar servidor
         app.listen(PORT, () => {
