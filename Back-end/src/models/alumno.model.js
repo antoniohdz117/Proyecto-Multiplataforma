@@ -1,6 +1,6 @@
 const {DataTypes} = require("sequelize");
 const {sequelize} = require("../config/connection")
-
+const {EntidadFederativa} = require("./entidadFederativa.model")
 
 //definicon del modelo de alumno
 const alumno = sequelize.define(
