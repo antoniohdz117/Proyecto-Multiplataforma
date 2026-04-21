@@ -1,5 +1,5 @@
 const {DataTypes} = require("sequelize")
-const {sequelize} = require("../connection")
+const {sequelize} = require("../config/connection")
 
 //periodo_academico
 const periodoAcademico = sequelize.define(
