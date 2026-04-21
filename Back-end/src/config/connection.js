@@ -1,15 +1,21 @@
 const { Sequelize } = require('sequelize');
+require('dotenv').config();
 
-// datos para la conexion a la base de datos, database, username, password y host
-const database = "Multiplataforma";
-const username = "postgres";
-const password = "320284645";  
-const host = "localhost";
-
-const sequelize = new Sequelize(database, username, password, {
-  host: host,
-  dialect: 'postgres', 
-});
+const sequelize = process.env.DATABASE_URL
+  ? new Sequelize(process.env.DATABASE_URL, {
+    dialect: 'postgres',
+    protocol: 'postgres',
+  })
+  : new Sequelize(
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PASSWORD,
+    {
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      dialect: 'postgres',
+    }
+  );
 
 module.exports = {
   sequelize

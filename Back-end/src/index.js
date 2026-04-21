@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const port = 3000;
-const { sequelize } = require("./connection");
+const { sequelize } = require("./config/connection");
 const { Author, Book, EntidadFederativa, alumno } = require("./models/models");
 
 app.use(express.json());
