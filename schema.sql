@@ -13,7 +13,7 @@ INSERT INTO entidad_federativa (nombre_entidad, abreviatura) VALUES
 ('Coahuila','COAH'),					
 ('Colima','COL'),					
 ('Chiapas','CHIS'),					
-('Chihuahua','CHIH'),					
+('Chihuahua','CHIH'),					f
 ('Ciudad de México','CDMX'),					
 ('Durango','DGO'),					
 ('Guanajuato','GTO'),					
