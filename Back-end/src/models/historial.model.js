@@ -38,6 +38,7 @@ const historial =
   },
   {
     tableName: "historial",
+    timestamps: false
   });
 
 

@@ -1,6 +1,5 @@
-const {DataTypes} = require("sequelize");
-const { sequelize}= require("../connection");
-
+const { DataTypes } = require("sequelize");
+const { sequelize } = require("../connection");
 
 const ofertaSemestral = sequelize.define(
   "ofertaSemestral",
@@ -23,10 +22,10 @@ const ofertaSemestral = sequelize.define(
   },
   {
     tableName: "oferta_semestral",
+    timestamps: false,
   },
 );
 
-
-module.exports ={
-    ofertaSemestral
-}
+module.exports = {
+  ofertaSemestral,
+};

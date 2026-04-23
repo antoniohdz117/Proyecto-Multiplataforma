@@ -17,6 +17,7 @@ const nivelSemestre = sequelize.define(
   },
   {
     tableName: "nivel_semestre",
+    timestamps: false
   },
 );
 

@@ -23,6 +23,7 @@ const credito = sequelize.define(
   },
   {
     tableName: "credito",
+    timestamps: false
   },
 );
 

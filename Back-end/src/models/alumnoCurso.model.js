@@ -43,6 +43,7 @@ const alumnoCurso =
   },
   {
     tableName: "alumno_curso",
+    timestamps: false
   });
 
 

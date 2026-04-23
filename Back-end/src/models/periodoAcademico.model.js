@@ -28,6 +28,7 @@ const periodoAcademico = sequelize.define(
   },
   {
     tableName: "periodo_academico",
+    timestamps: false
   },
 );
 

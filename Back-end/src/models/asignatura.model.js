@@ -19,6 +19,7 @@ const asignatura = sequelize.define(
   },
   {
     tableName: "asignatura",
+    timestamps: false
   },
 );
 

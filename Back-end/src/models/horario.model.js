@@ -26,6 +26,7 @@ const horario = sequelize.define(
   },
   {
     tableName: "horario",
+    timestamps: false
   },
 );
 

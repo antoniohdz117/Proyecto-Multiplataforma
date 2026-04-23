@@ -9,7 +9,8 @@ const alumno = sequelize.define(
     numero_cuenta: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true,
+      //autoIncrement: false,
+      unique: false,
     },
     nombre: {
       type: DataTypes.STRING,
@@ -64,6 +65,7 @@ const alumno = sequelize.define(
   },
   {
     tableName: "alumno",
+    timestamps: false
   },
 );
 
