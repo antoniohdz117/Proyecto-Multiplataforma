@@ -1,5 +1,5 @@
 const {DataTypes, Association} = require("sequelize");
-const {sequelize} = require("../connection")
+const {sequelize} = require("../config/connection")
 
 
 

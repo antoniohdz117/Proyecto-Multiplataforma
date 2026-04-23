@@ -1,0 +1,27 @@
+const { DataTypes } = require("sequelize");
+const { sequelize } = require("../connection");
+
+
+const plantel = sequelize.define(
+  "plantel",
+  {
+    clave_plante: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+    },
+    nombre_plantel: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+  },
+  {
+    tableName: "plantel",
+  },
+);
+
+
+module.exports = {
+    plantel
+}
