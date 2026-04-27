@@ -1,15 +1,13 @@
-const {DataTypes} = require("sequelize")
-const {sequelize} = require("../config/connection")
-
-//tupocurso
+const { DataTypes } = require("sequelize");
+const { sequelize } = require("../config/connection");
 
 const tipoCurso = sequelize.define(
   "tipoCurso",
   {
     id_tipo_curso: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      unique: true,
+      primaryKey: true,
+      autoIncrement: true,
     },
     nombre_tipo: {
       type: DataTypes.STRING,
@@ -19,10 +17,9 @@ const tipoCurso = sequelize.define(
   },
   {
     tableName: "tipo_curso",
-  },
+  }
 );
 
-
-module.exports ={
-    tipoCurso
-}
+module.exports = {
+  tipoCurso,
+};
