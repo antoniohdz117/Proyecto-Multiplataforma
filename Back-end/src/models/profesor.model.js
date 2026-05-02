@@ -56,6 +56,7 @@ const profesor = sequelize.define(
   },
   {
     tableName: "profesor",
+    timestamps: false
   }
 );
 

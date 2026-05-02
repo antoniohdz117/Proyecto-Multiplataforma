@@ -40,6 +40,7 @@ const curso = sequelize.define(
   },
   {
     tableName: "curso",
+    timestamps: false
 }
 );
 

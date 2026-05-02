@@ -1173,3 +1173,66 @@ SELECT * FROM plantel
 SELECT * FROM credito 
 SELECT * FROM historial 
 
+--INSERTS EXTRA
+
+INSERT INTO salon (nombre_salon) VALUES
+('A101'),
+('B202'),
+('C303');
+
+INSERT INTO grupo (nombre_grupo) VALUES
+('1596'),
+('1597'),
+('1598');
+
+INSERT INTO curso (
+  cupo_maximo,
+  inscritos_actual,
+  id_profesor,
+  clave_asignatura,
+  id_oferta_semestral,
+  id_tipo_curso,
+  id_grupo
+) VALUES
+(30, 25, 1, 101, 1, 1, 1),
+(40, 35, 2, 102, 1, 1, 2),
+(35, 20, 3, 103, 2, 2, 3);
+
+
+INSERT INTO asignacion_curso (id_horario, id_curso, id_salon) VALUES
+(1, 1, 1),
+(2, 2, 2),
+(3, 3, 3);
+
+
+INSERT INTO alumno_curso (
+  primer_parcial,
+  segundo_parcial,
+  tercer_parcial,
+  estatus_evaluacion,
+  numero_cuenta,
+  id_curso
+) VALUES
+(8.5, 9.0, 9.5, 'REG', 320267695, 1),
+(7.0, 8.0, 8.5, 'REG', 320267696, 1),
+(NULL, NULL, NULL, 'NP', 320267697, 2),
+(6.5, 7.0, 7.5, 'REG', 320267698, 3);
+
+
+INSERT INTO credito (tipo_credito, punto_credito) VALUES
+('OBL', 8),
+('OBL', 10),
+('OPT', 6);
+
+
+INSERT INTO historial (
+  folio_acta,
+  id_alumno_curso,
+  id_credito,
+  clave_plantel,
+  promedio_final
+) VALUES
+('AC00000001', 1, 1, 1, 9.0),
+('AC00000002', 2, 2, 2, 8.0),
+('AC00000003', 3, 3, 3, NULL),
+('AC00000004', 4, 1, 1, 7.0);

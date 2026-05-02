@@ -17,6 +17,7 @@ const salon = sequelize.define(
   },
   {
     tableName: "salon",
+    timestamps: false
   },
 );
 

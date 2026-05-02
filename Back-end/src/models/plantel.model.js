@@ -18,6 +18,7 @@ const plantel = sequelize.define(
   },
   {
     tableName: "plantel",
+    timestamps: false
   },
 );
 

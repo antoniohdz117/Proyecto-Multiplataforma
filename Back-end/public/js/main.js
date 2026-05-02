@@ -1,7 +1,7 @@
 let table;
 
 $(document).ready(function () {
-  loadAuthors();
+  loadProfesores();
 
   //   EJEMPLO
   //$('#btnAuthors').click(loadAuthors);
@@ -12,7 +12,7 @@ $(document).ready(function () {
   $("#btnGrupos").click(loadGrupos);
   $("#btnNiveles").click(loadNiveles);
   $("#btnOfertas").click(loadOfertas);
-  $("#btnPeriodos").click(loadPeridos);
+  $("#btnPeriodos").click(loadPeriodos);
   $("#btnProfesores").click(loadProfesores);
   $("#btnTiposCurso").click(loadTiposCurso);
 });
@@ -32,26 +32,85 @@ function resetTable(headers) {
     </thead>
   `);
 }
+
+// // VIEW (abrir modal)
+// $("#mainTable").on("click", ".btn-view", function () {
+//   const data = table.row($(this).parents("tr")).data();
+
+//   if (data.age !== undefined) {
+//     currentType = "author";
+//     $("#viewId").val(data.id);
+//     $("#viewName").val(data.name);
+//     $("#viewExtra").val(data.age);
+
+//   } else if
+//    (data.cantPages !== undefined) {
+//     currentType = "book";
+//     $("#viewId").val(data.id);
+//     $("#viewName").val(data.name);
+//     $("#viewExtra").val(data.cantPages);
+//   } else {
+//     currentType = "entidad";
+//     $("#viewId").val(data.id_entidad);
+//     $("#viewName").val(data.nombre_entidad);
+//     $("#viewExtra").val(data.abreviatura);
+//   }
+
+//   const modal = new bootstrap.Modal(document.getElementById("viewModal"));
+//   modal.show();
+// });
+$("#mainTable").on("click", ".btn-view", function () {
+  const data = table.row($(this).parents("tr")).data();
+
+  const form = $("#viewForm");
+  form.empty(); // 🔥 limpia antes
+
+  for (let key in data) {
+    if (typeof data[key] !== "object") {
+
+      form.append(`
+        <div class="mb-2">
+          <label class="form-label">${key}</label>
+          <input type="text" class="form-control" value="${data[key]}" readonly>
+        </div>
+      `);
+
+    }
+  }
+
+  const modal = new bootstrap.Modal(document.getElementById("viewModal"));
+  modal.show();
+});
+
+
 function loadAlumnos() {
+  currentTable = "alumnos";
+
   resetTable(`
-        <th>numero_cuenta</th>
-        <th>nombre</th>
-        <th>apellido_paterno</th>
-        <th>apellido_materno</th>
-        <th>curp</th>
-        <th>telefono</th>
-        <th>sexo</th>
-        <th>correo_electronico</th>
-        <th>fecha_nacimiento</th>
-        <th>foto_perfil</th>
-        <th>id_entidad</th>
-        `);
+    <th>numero_cuenta</th>
+    <th>nombre</th>
+    <th>apellido_paterno</th>
+    <th>apellido_materno</th>
+    <th>curp</th>
+    <th>telefono</th>
+    <th>sexo</th>
+    <th>correo_electronico</th>
+    <th>fecha_nacimiento</th>
+    <th>foto_perfil</th>
+    <th>id_entidad</th>
+    <th>Actions</th>
+  `);
 
   table = $("#mainTable").DataTable({
     ajax: {
-      url: "/alumno",
-      dataSrc: "data",
+      url: "/api/alumnos",
+      dataSrc: "alumnos",
     },
+
+    scrollX: true,
+    autoWidth: false,
+    destroy: true,
+
     columns: [
       { data: "numero_cuenta" },
       { data: "nombre" },
@@ -66,28 +125,27 @@ function loadAlumnos() {
       { data: "id_entidad" },
       {
         data: null,
-        render: function (data) {
-          return `
-            <button class="btn btn-info btn-view">View</button>
-            <button class="btn btn-danger btn-delete-entidad" data-id="${data.id_entidad}">Delete</button>`;
+        orderable: false,
+        render: function () {
+          return `<button class="btn btn-info btn-view">View</button>`;
         },
       },
     ],
   });
 }
 
-
-
 function loadAsignaturas() {
+  currentTable = "asignaturas";
   resetTable(`
         <th>clave_asignatura</th>
         <th>nombre</th>
+        <th>Actions</th>
         `);
 
   table = $("#mainTable").DataTable({
     ajax: {
-      url: "/asignaturas",
-      dataSrc: "data",
+      url: "/api/asignaturas",
+      dataSrc: "asignaturas",
     },
     columns: [
       { data: "clave_asignatura" },
@@ -104,9 +162,8 @@ function loadAsignaturas() {
   });
 }
 
-
-
-function loadCurso() {
+function loadCursos() {
+  currentTable = "cursos";
   resetTable(`
         <th>id_curso</th>
         <th>cupo_maximo</th>
@@ -116,12 +173,13 @@ function loadCurso() {
         <th>id_oferta_semestral</th>
         <th>id_tipo_curso</th>
         <th>id_curso</th>
+        <th>Actions</th>
         `);
 
   table = $("#mainTable").DataTable({
     ajax: {
-      url: "/cursos",
-      dataSrc: "data",
+      url: "/api/cursos",
+      dataSrc: "cursos",
     },
     columns: [
       { data: "id_curso" },
@@ -144,24 +202,24 @@ function loadCurso() {
   });
 }
 
-
-
 function loadEntidades() {
+  currentTable = "entidades";
   resetTable(`
         <th>id_entidad</th>
         <th>nombre_entidad</th>
-        <th>abrevitura</th>
+        <th>abreviatura</th>
+        <th>Actions</th>
         `);
 
   table = $("#mainTable").DataTable({
     ajax: {
-      url: "/entidades",
-      dataSrc: "data",
+      url: "/api/entidades",
+      dataSrc: "entidades",
     },
     columns: [
       { data: "id_entidad" },
       { data: "nombre_entidad" },
-      { data: "abrevitura" },
+      { data: "abreviatura" },
       {
         data: null,
         render: function (data) {
@@ -174,23 +232,23 @@ function loadEntidades() {
   });
 }
 
-
-
 function loadGrupos() {
+  currentTable = "grupos";
   resetTable(`
         <th>id_grupo</th>
         <th>nombre_grupo</th>
+        <th>Actions</th>
         `);
 
   table = $("#mainTable").DataTable({
     ajax: {
-      url: "/grupos",
-      dataSrc: "data",
+      url: "/api/grupos",
+      dataSrc: "grupos",
     },
     columns: [
       { data: "id_grupo" },
       { data: "nombre_grupo" },
-      
+
       {
         data: null,
         render: function (data) {
@@ -203,25 +261,23 @@ function loadGrupos() {
   });
 }
 
-
-
 function loadNiveles() {
+  currentTable = "niveles";
   resetTable(`
         <th>id_nivel_semestre</th>
-        <th></th>
-        <th></th>
-        
+        <th>nombre_semestre</th>
+        <th>Actions</th>
         `);
 
   table = $("#mainTable").DataTable({
     ajax: {
-      url: "/niveles",
-      dataSrc: "data",
+      url: "/api/niveles",
+      dataSrc: "niveles",
     },
     columns: [
       { data: "id_nivel_semestre" },
       { data: "nombre_semestre" },
-      
+
       {
         data: null,
         render: function (data) {
@@ -234,22 +290,22 @@ function loadNiveles() {
   });
 }
 
-
-
 function loadOfertas() {
+  currentTable = "ofertas";
   resetTable(`
-        <th>id_semestral_semestral</th>
+        <th>id_oferta_semestral</th>
         <th>id_periodo</th>
         <th>id_nivel_semestre</th>
+        <th>Actions</th>
         `);
 
   table = $("#mainTable").DataTable({
     ajax: {
-      url: "/Ofertas",
-      dataSrc: "data",
+      url: "/api/ofertas",
+      dataSrc: "ofertas",
     },
     columns: [
-      { data: "id_semestral_semestral" },
+      { data: "id_oferta_semestral" },
       { data: "id_periodo" },
       { data: "id_nivel_semestre" },
       {
@@ -264,21 +320,21 @@ function loadOfertas() {
   });
 }
 
-
-
-function loadPeridos() {
+function loadPeriodos() {
+  currentTable = "periodos";
   resetTable(`
         <th>id_periodo</th>
         <th>periodo_nombre</th>
         <th>fecha_inicio</th>
         <th>fecha_fin</th>
+        <th>Actions</th>
         
         `);
 
   table = $("#mainTable").DataTable({
     ajax: {
-      url: "/periodos",
-      dataSrc: "data",
+      url: "/api/periodos",
+      dataSrc: "periodos",
     },
     columns: [
       { data: "id_periodo" },
@@ -297,9 +353,8 @@ function loadPeridos() {
   });
 }
 
-
-
 function loadProfesores() {
+  currentTable = "profesores";
   resetTable(`
         <th>id_profesor</th>
         <th>nombre</th>
@@ -312,12 +367,13 @@ function loadProfesores() {
         <th>correo_electronico</th>
         <th>fecha_nacimiento</th>
         <th>sueldo</th>
+        <th>Actions</th>
         `);
 
   table = $("#mainTable").DataTable({
     ajax: {
-      url: "/profesores",
-      dataSrc: "data",
+      url: "/api/profesores",
+      dataSrc: "profesores",
     },
     columns: [
       { data: "id_profesor" },
@@ -343,23 +399,23 @@ function loadProfesores() {
   });
 }
 
-
-
 function loadTiposCurso() {
+  currentTable = "tiposCurso";
   resetTable(`
         <th>id_tipo_curso</th>
         <th>nombre_tipo</th>
+        <th>Actions</th>
         `);
 
   table = $("#mainTable").DataTable({
     ajax: {
-      url: "/tiposCurso",
-      dataSrc: "data",
+      url: "/api/tipos-curso",
+      dataSrc: "tipos",
     },
     columns: [
       { data: "id_tipo_curso" },
       { data: "nombre_tipo" },
-      
+
       {
         data: null,
         render: function (data) {
@@ -372,173 +428,59 @@ function loadTiposCurso() {
   });
 }
 
+// function load() {
+//   resetTable(`
+//         <th>ID</th>
+//         <th></th>
+//         <th></th>
+//         <th></th>
+//         <th></th>
+//         <th></th>
+//         <th></th>
+//         <th></th>
+//         `);
 
+//   table = $("#mainTable").DataTable({
+//     ajax: {
+//       url: "nombre",
+//       dataSrc: "data",
+//     },
+//     columns: [
+//       { data: "" },
+//       { data: "" },
+//       { data: "" },
+//       { data: "" },
+//       { data: "" },
+//       { data: "" },
+//       { data: "" },
+//       {
+//         data: null,
+//         render: function (data) {
+//           return `
+//             <button class="btn btn-info btn-view">View</button>
+//             <button class="btn btn-danger btn-delete-entidad" data-id="${data.id_entidad}">Delete</button>`;
+//         },
+//       },
+//     ],
+//   });
+// }
 
-function load() {
-  resetTable(`
-        <th>ID</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        `);
+// // DELETE AUTHOR
+// $("#mainTable").on("click", ".btn-delete-author", function () {
+//   const id = $(this).data("id");
 
-  table = $("#mainTable").DataTable({
-    ajax: {
-      url: "nombre",
-      dataSrc: "data",
-    },
-    columns: [
-      { data: "" },
-      { data: "" },
-      { data: "" },
-      { data: "" },
-      { data: "" },
-      { data: "" },
-      { data: "" },
-      {
-        data: null,
-        render: function (data) {
-          return `
-            <button class="btn btn-info btn-view">View</button>
-            <button class="btn btn-danger btn-delete-entidad" data-id="${data.id_entidad}">Delete</button>`;
-        },
-      },
-    ],
-  });
-}
+//   if (!confirDataTables warning: table id=mainTable - Requested unknown parameter 'abrevitura' for row 0, column 2. For more information about this error, please see http://datatables.net/tn/m("Delete this author?")) return;
 
+//   $.ajax({
+//     url: `/authors/${id}`,
+//     type: "DELETE",
+//     success: function () {
+//       table.ajax.reload();
+//     },
+//     error: function () {
+//       alert("Error deleting author");
+//     },
+//   });
+// });
 
-
-function load() {
-  resetTable(`
-        <th>ID</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        `);
-
-  table = $("#mainTable").DataTable({
-    ajax: {
-      url: "nombre",
-      dataSrc: "data",
-    },
-    columns: [
-      { data: "" },
-      { data: "" },
-      { data: "" },
-      { data: "" },
-      { data: "" },
-      { data: "" },
-      { data: "" },
-      {
-        data: null,
-        render: function (data) {
-          return `
-            <button class="btn btn-info btn-view">View</button>
-            <button class="btn btn-danger btn-delete-entidad" data-id="${data.id_entidad}">Delete</button>`;
-        },
-      },
-    ],
-  });
-}
-
-
-
-function load() {
-  resetTable(`
-        <th>ID</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        `);
-
-  table = $("#mainTable").DataTable({
-    ajax: {
-      url: "nombre",
-      dataSrc: "data",
-    },
-    columns: [
-      { data: "" },
-      { data: "" },
-      { data: "" },
-      { data: "" },
-      { data: "" },
-      { data: "" },
-      { data: "" },
-      {
-        data: null,
-        render: function (data) {
-          return `
-            <button class="btn btn-info btn-view">View</button>
-            <button class="btn btn-danger btn-delete-entidad" data-id="${data.id_entidad}">Delete</button>`;
-        },
-      },
-    ],
-  });
-}
-
-
-
-
-function loadAuthors() {
-  resetTable(`
-    <th>ID</th>
-    <th>Name</th>
-    <th>Age</th>
-  `);
-
-  table = $("#mainTable").DataTable({
-    ajax: "/authors",
-    columns: [{ data: "id" }, { data: "name" }, { data: "age" }],
-  });
-}
-
-function loadBooks() {
-  resetTable(`
-    <th>ID</th>
-    <th>ISBN</th>
-    <th>Name</th>
-    <th>Pages</th>
-  `);
-
-  table = $("#mainTable").DataTable({
-    ajax: "/books",
-    columns: [
-      { data: "id" },
-      { data: "isbn" },
-      { data: "name" },
-      { data: "cantPages" },
-    ],
-  });
-}
-
-function loadRevistas() {
-  resetTable(`
-    <th>ID</th>
-    <th>ISBN</th>
-    <th>Name</th>
-    <th>Pages</th>
-  `);
-
-  table = $("#mainTable").DataTable({
-    ajax: "/revistas",
-    columns: [
-      { data: "id" },
-      { data: "isbn" },
-      { data: "name" },
-      { data: "cantPages" },
-    ],
-  });
-}
+//Delete entidades

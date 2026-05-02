@@ -17,6 +17,7 @@ const tipoCurso = sequelize.define(
   },
   {
     tableName: "tipo_curso",
+    timestamps: false
   }
 );
 

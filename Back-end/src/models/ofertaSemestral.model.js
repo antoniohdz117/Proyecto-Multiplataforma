@@ -20,6 +20,7 @@ const ofertaSemestral = sequelize.define(
   },
   {
     tableName: "oferta_semestral",
+    timestamps: false
   }
 );
 

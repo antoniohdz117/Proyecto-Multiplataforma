@@ -37,6 +37,7 @@ const alumnoCurso = sequelize.define(
   },
   {
     tableName: "alumno_curso",
+    timestamps: false
   }
 );
 
