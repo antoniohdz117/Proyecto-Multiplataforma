@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-const { sequelize } = require("../connection");
+const { sequelize } = require("../config/connection");
 
 
 const plantel = sequelize.define(
@@ -18,6 +18,7 @@ const plantel = sequelize.define(
   },
   {
     tableName: "plantel",
+    timestamps: false
   },
 );
 

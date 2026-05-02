@@ -1,32 +1,29 @@
-const {DataTypes} = require("sequelize");
-const { sequelize}= require("../connection");
-
+const { DataTypes } = require("sequelize");
+const { sequelize } = require("../config/connection");
 
 const ofertaSemestral = sequelize.define(
   "ofertaSemestral",
   {
     id_oferta_semestral: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      unique: true,
+      primaryKey: true,
+      autoIncrement: true,
     },
     id_periodo: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      unique: true,
+      allowNull: false,
     },
     id_nivel_semestre: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      unique: true,
+      allowNull: false,
     },
   },
   {
     tableName: "oferta_semestral",
-  },
+    timestamps: false
+  }
 );
 
-
-module.exports ={
-    ofertaSemestral
-}
+module.exports = {
+  ofertaSemestral,
+};

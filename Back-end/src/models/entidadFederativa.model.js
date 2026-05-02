@@ -25,6 +25,7 @@ const EntidadFederativa = sequelize.define(
   },
   {
     tableName: "entidad_federativa",
+    timestamps: false
   },
 );
 

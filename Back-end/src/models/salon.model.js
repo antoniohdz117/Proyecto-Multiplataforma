@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-const { sequelize } = require("../connection");
+const { sequelize } = require("../config/connection");
 
 const salon = sequelize.define(
   "salon",
@@ -17,6 +17,7 @@ const salon = sequelize.define(
   },
   {
     tableName: "salon",
+    timestamps: false
   },
 );
 
