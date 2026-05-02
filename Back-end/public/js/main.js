@@ -22,10 +22,10 @@ function resetTable(headers) {
     table.destroy();
   }
 
-  // 🔥 limpia completamente la tabla
+
   $("#mainTable").empty();
 
-  // 🔥 reconstruye el thead
+
   $("#mainTable").append(`
     <thead>
       <tr>${headers}</tr>
@@ -63,7 +63,7 @@ $("#mainTable").on("click", ".btn-view", function () {
   const data = table.row($(this).parents("tr")).data();
 
   const form = $("#viewForm");
-  form.empty(); // 🔥 limpia antes
+  form.empty(); // 
 
   for (let key in data) {
     if (typeof data[key] !== "object") {
