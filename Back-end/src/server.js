@@ -1,5 +1,5 @@
 require("dotenv").config();
-
+require("./models");
 const app = require("./app");
 const { sequelize } = require("./config/connection");
 

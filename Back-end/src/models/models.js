@@ -63,6 +63,7 @@ const alumno = sequelize.define(
   },
   {
     tableName: "alumno",
+    timestamps: false
   },
 );
 

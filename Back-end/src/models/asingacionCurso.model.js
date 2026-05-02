@@ -27,6 +27,7 @@ const asignacionCurso =
   },
   {
     tableName: "asignacion_curso",
+    timestamps: false
   });
 
 //asignacion curso
