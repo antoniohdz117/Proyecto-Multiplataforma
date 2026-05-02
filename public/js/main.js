@@ -83,30 +83,34 @@ $("#mainTable").on("click", ".btn-view", function () {
 });
 
 
-
 function loadAlumnos() {
   currentTable = "alumnos";
+
   resetTable(`
-        <th>numero_cuenta</th>
-        <th>nombre</th>
-        <th>apellido_paterno</th>
-        <th>apellido_materno</th>
-        <th>curp</th>
-        <th>telefono</th>
-        <th>sexo</th>
-        <th>correo_electronico</th>
-        <th>fecha_nacimiento</th>
-        <th>foto_perfil</th>
-        <th>id_entidad</th>
-        <th>Actions</th>
-        `);
+    <th>numero_cuenta</th>
+    <th>nombre</th>
+    <th>apellido_paterno</th>
+    <th>apellido_materno</th>
+    <th>curp</th>
+    <th>telefono</th>
+    <th>sexo</th>
+    <th>correo_electronico</th>
+    <th>fecha_nacimiento</th>
+    <th>foto_perfil</th>
+    <th>id_entidad</th>
+    <th>Actions</th>
+  `);
 
   table = $("#mainTable").DataTable({
     ajax: {
       url: "/api/alumnos",
       dataSrc: "alumnos",
     },
-    
+
+    scrollX: true,
+    autoWidth: false,
+    destroy: true,
+
     columns: [
       { data: "numero_cuenta" },
       { data: "nombre" },
@@ -119,6 +123,13 @@ function loadAlumnos() {
       { data: "fecha_nacimiento" },
       { data: "foto_perfil" },
       { data: "id_entidad" },
+      {
+        data: null,
+        orderable: false,
+        render: function () {
+          return `<button class="btn btn-info btn-view">View</button>`;
+        },
+      },
     ],
   });
 }
