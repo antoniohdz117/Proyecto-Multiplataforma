@@ -1,21 +1,30 @@
 const express = require("express");
 const app = express();
 
-
 const path = require("path");
 
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./swagger");
+
+// Configuración de EJS
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../views"));
 
-
+// Archivos estáticos
 app.use(express.static(path.join(__dirname, "../public")));
 
+// Middleware para recibir JSON
 app.use(express.json());
 
+// Ruta principal
 app.get("/", (req, res) => {
   res.render("index");
 });
 
+// Documentación Swagger
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+// Rutas de la API
 const alumnosRoutes = require("./routes/alumnos.routes");
 const entidadesRoutes = require("./routes/entidades.routes");
 const profesoresRoutes = require("./routes/profesores.routes");
@@ -27,7 +36,7 @@ const nivelesRoutes = require("./routes/niveles.routes");
 const ofertasRoutes = require("./routes/ofertas.routes");
 const cursosRoutes = require("./routes/cursos.routes");
 
-app.use(express.json());
+// Endpoints
 app.use("/api/cursos", cursosRoutes);
 app.use("/api/ofertas", ofertasRoutes);
 app.use("/api/niveles", nivelesRoutes);
