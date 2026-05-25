@@ -1,6 +1,9 @@
 const { alumno } = require("../models/alumno.model");
 const { EntidadFederativa } = require("../models/entidadFederativa.model");
 
+
+//get
+
 const getAlumnos = async (req, res) => {
   try {
     const alumnos = await alumno.findAll({
@@ -46,9 +49,12 @@ const getAlumnoById = async (req, res) => {
   }
 };
 
+
+//create o post
 const createAlumno = async (req, res) => {
   try {
     const {
+      numero_cuenta,
       nombre,
       apellido_paterno,
       apellido_materno,
@@ -62,6 +68,7 @@ const createAlumno = async (req, res) => {
     } = req.body;
 
     const nuevoAlumno = await alumno.create({
+      numero_cuenta,
       nombre,
       apellido_paterno,
       apellido_materno,
@@ -83,6 +90,8 @@ const createAlumno = async (req, res) => {
   }
 };
 
+
+//update  y put 
 const updateAlumno = async (req, res) => {
   try {
     const { id } = req.params;
@@ -96,6 +105,7 @@ const updateAlumno = async (req, res) => {
     }
 
     const {
+      numero_cuenta,
       nombre,
       apellido_paterno,
       apellido_materno,
@@ -109,6 +119,7 @@ const updateAlumno = async (req, res) => {
     } = req.body;
 
     await alumnoEncontrado.update({
+      numero_cuenta,
       nombre,
       apellido_paterno,
       apellido_materno,
