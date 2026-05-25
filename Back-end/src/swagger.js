@@ -260,6 +260,50 @@ const swaggerSpec = {
           500: { $ref: "#/components/responses/Error500" },
         },
       },
+      patch: {
+        tags: ["Entidades"],
+        summary: "Actualizar parcialmente una entidad por ID",
+        description:
+          "Permite actualizar solo uno o algunos campos de una entidad federativa, por ejemplo solo nombre_entidad o solo abreviatura.",
+        parameters: [{ $ref: "#/components/parameters/IdPath" }],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/EntidadPatch" },
+              examples: {
+                actualizarNombre: {
+                  summary: "Actualizar solo el nombre",
+                  value: {
+                    nombre_entidad: "Jalisco",
+                  },
+                },
+                actualizarAbreviatura: {
+                  summary: "Actualizar solo la abreviatura",
+                  value: {
+                    abreviatura: "JAL",
+                  },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: "Entidad actualizada parcialmente correctamente",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/MessageResponse" },
+                example: {
+                  message: "Entidad patched",
+                },
+              },
+            },
+          },
+          404: { $ref: "#/components/responses/NotFound" },
+          500: { $ref: "#/components/responses/Error500" },
+        },
+      },
       delete: {
         tags: ["Entidades"],
         summary: "Eliminar una entidad por ID",
@@ -1015,6 +1059,21 @@ const swaggerSpec = {
         properties: {
           nombre_entidad: { type: "string", example: "Ciudad de México" },
           abreviatura: { type: "string", example: "CDMX" },
+        },
+      },
+      EntidadPatch: {
+        type: "object",
+        description:
+          "Campos opcionales para actualizar parcialmente una entidad federativa",
+        properties: {
+          nombre_entidad: {
+            type: "string",
+            example: "Jalisco",
+          },
+          abreviatura: {
+            type: "string",
+            example: "JAL",
+          },
         },
       },
       EntidadConAlumnos: {
