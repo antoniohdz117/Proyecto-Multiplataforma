@@ -1,6 +1,9 @@
 const { alumno } = require("../models/alumno.model");
 const { EntidadFederativa } = require("../models/entidadFederativa.model");
 
+
+//get
+
 const getAlumnos = async (req, res) => {
   try {
     const alumnos = await alumno.findAll({
@@ -46,6 +49,8 @@ const getAlumnoById = async (req, res) => {
   }
 };
 
+
+//create o post
 const createAlumno = async (req, res) => {
   try {
     const {
@@ -83,6 +88,8 @@ const createAlumno = async (req, res) => {
   }
 };
 
+
+//update  y put 
 const updateAlumno = async (req, res) => {
   try {
     const { id } = req.params;

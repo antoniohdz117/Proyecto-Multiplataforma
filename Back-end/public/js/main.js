@@ -1,5 +1,24 @@
 let table;
 
+//MEJOR MANEJO DE LOS CAMPOS 
+let currentTable = "";
+let selectedAlumnoId = null;
+
+//CAMPOS QUE SERAN MODIFICADOS mejor manejo de campos 
+const alumnoFields = [
+  "nombre",
+  "apellido_paterno",
+  "apellido_materno",
+  "curp",
+  "telefono",
+  "sexo",
+  "correo_electronico",
+  "fecha_nacimiento",
+  "foto_perfil",
+  "id_entidad"
+];
+
+
 $(document).ready(function () {
   loadProfesores();
 
@@ -133,6 +152,11 @@ function loadAlumnos() {
     ],
   });
 }
+
+// CAMPOS MODIFICADORES SOLO PARA ALUMNO
+
+
+
 
 function loadAsignaturas() {
   currentTable = "asignaturas";
