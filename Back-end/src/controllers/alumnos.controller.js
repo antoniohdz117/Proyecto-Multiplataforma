@@ -54,6 +54,7 @@ const getAlumnoById = async (req, res) => {
 const createAlumno = async (req, res) => {
   try {
     const {
+      numero_cuenta,
       nombre,
       apellido_paterno,
       apellido_materno,
@@ -67,6 +68,7 @@ const createAlumno = async (req, res) => {
     } = req.body;
 
     const nuevoAlumno = await alumno.create({
+      numero_cuenta,
       nombre,
       apellido_paterno,
       apellido_materno,
@@ -103,6 +105,7 @@ const updateAlumno = async (req, res) => {
     }
 
     const {
+      numero_cuenta,
       nombre,
       apellido_paterno,
       apellido_materno,
@@ -116,6 +119,7 @@ const updateAlumno = async (req, res) => {
     } = req.body;
 
     await alumnoEncontrado.update({
+      numero_cuenta,
       nombre,
       apellido_paterno,
       apellido_materno,
