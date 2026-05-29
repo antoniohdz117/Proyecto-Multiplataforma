@@ -116,4 +116,7 @@ module.exports = {
   getGrupos,
   getGrupoById,
   createGrupo,
+    updateGrupo,
+    deleteGrupo,
+    
 };
