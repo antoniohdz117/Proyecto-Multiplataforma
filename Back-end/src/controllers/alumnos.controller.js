@@ -67,6 +67,8 @@ const createAlumno = async (req, res) => {
       id_entidad,
     } = req.body;
 
+    //
+
     const nuevoAlumno = await alumno.create({
       numero_cuenta,
       nombre,
