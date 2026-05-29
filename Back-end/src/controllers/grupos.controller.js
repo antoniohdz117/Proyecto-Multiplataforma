@@ -1,7 +1,5 @@
 const { grupo } = require("../models");
 
-
-
 const getGrupos = async (req, res) => {
   try {
     const grupos = await grupo.findAll();
@@ -116,7 +114,6 @@ module.exports = {
   getGrupos,
   getGrupoById,
   createGrupo,
-    updateGrupo,
-    deleteGrupo,
-    
+  updateGrupo,
+  deleteGrupo,
 };

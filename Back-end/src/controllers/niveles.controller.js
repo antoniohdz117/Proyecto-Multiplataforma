@@ -54,7 +54,6 @@ const createNivel = async (req, res) => {
   }
 };
 
-
 // funcion para actualziar un nivel
 const updateNivel = async (req, res) => {
   try {
@@ -87,34 +86,43 @@ const updateNivel = async (req, res) => {
 
 // funcion para eliminar un nivel
 const deleteNivel = async (req, res) => {
-    try {
-        const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-        if (isNaN(Number(id))) {
-            return res.status(400).json({
-                message: "El id del nivel debe ser un número",
-            });
-        }
-
-        const nivelEncontrado = await nivelSemestre.findByPk(id);
-
-        if (!nivelEncontrado) { 
-            return res.status(404).json({
-                message: "Nivel no encontrado",
-            });
-        } 
-    } catch (error) {
-        return res.status(500).json({
-            message: "Error al eliminar nivel",
-            error: error.message,
-        });
+    if (isNaN(Number(id))) {
+      return res.status(400).json({
+        message: "El id del nivel debe ser un número",
+      });
     }
-};
 
+    
+    const nivelEncontrado = await nivelSemestre.findByPk(id);
+
+    if (!nivelEncontrado) {
+      return res.status(404).json({
+        message: "Nivel no encontrado",
+      });
+    }
+
+
+
+
+    await nivelEncontrado.destroy();
+
+    return res.json({
+      message: "Nivel eliminado correctamente",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error al eliminar nivel",
+      error: error.message,
+    });
+  }
+};
 module.exports = {
   getNiveles,
   getNivelById,
   createNivel,
-    updateNivel,
-    deleteNivel,
+  updateNivel,
+  deleteNivel,
 };

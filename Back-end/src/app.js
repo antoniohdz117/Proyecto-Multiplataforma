@@ -16,8 +16,14 @@ app.use(express.static(path.join(__dirname, "../public")));
 // Middleware para recibir JSON
 app.use(express.json());
 
+
 // Ruta principal
 app.get("/", (req, res) => {
+  res.render("home");
+});
+
+// Ruta principal
+app.get("/index", (req, res) => {
   res.render("index");
 });
 
