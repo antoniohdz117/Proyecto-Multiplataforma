@@ -49,6 +49,16 @@ function loadEntidades() {
 
 //nuevo alumno creado por formulario
 function openCreateEntidad() {
+  //esto borrara cualquier formulario que este abierto y mostrara el de crear alumno
+  const modalElemento = document.getElementById("viewModal");
+  const modalInstance = bootstrap.Modal.getInstance(modalElemento);
+
+  if (modalInstance) {
+    modalInstance.hide();
+  }
+
+  //debo resetear el ID seleccionado para evitar problemas al crear un nuevo alumno despues de haber seleccionado uno para actualizar
+  selectedEntidadId = null;
   $("#createSection").show();
   $("#createForm").empty();
 
@@ -86,7 +96,22 @@ function createEntidad() {
 
     error: function (error) {
       console.log(error);
-      alert("Error al crear nuevo Entidad ");
+
+      let mensaje = "Error al crear entidad";
+
+      if (error.responseJSON && error.responseJSON.message) {
+        mensaje = error.responseJSON.message;
+      }
+
+      if (error.responseJSON && error.responseJSON.errores) {
+        mensaje += "" + error.responseJSON.errores.join("\n");
+      }
+
+      if (error.responseJSON && error.responseJSON.campos) {
+        mensaje +="Campos con problema: " + error.responseJSON.campos.join(", ");
+      }
+
+      alert(mensaje);
     },
   });
 }
@@ -166,9 +191,24 @@ function updateEntidad() {
       table.ajax.reload();
     },
     error: function (error) {
-      console.log(error);
-      alert("Error al actualizar Entidad");
-    },
+  console.log(error);
+
+  let mensaje = "Error al actualizar entidad";
+
+  if (error.responseJSON && error.responseJSON.message) {
+    mensaje = error.responseJSON.message;
+  }
+
+  if (error.responseJSON && error.responseJSON.errores) {
+    mensaje += "" + error.responseJSON.errores.join("\n");
+  }
+
+  if (error.responseJSON && error.responseJSON.campos) {
+    mensaje += "Campos con problema: " + error.responseJSON.campos.join(", ");
+  }
+
+  alert(mensaje);
+},
   });
 }
 

@@ -26,20 +26,45 @@ const validarAlumno = (datos) => {
   } = datos;
 
   //cada campo mapeado
-  if (
-    !numero_cuenta ||
-    !nombre ||
-    !apellido_paterno ||
-    !apellido_materno ||
-    !curp ||
-    !telefono ||
-    !sexo ||
-    !correo_electronico ||
-    !fecha_nacimiento ||
-    !id_entidad
-  ) {
-    return "Todos los campos deben ser enviados";
-  }
+  if (!numero_cuenta) {
+  return "El número de cuenta es obligatorio";
+}
+
+if (!nombre) {
+  return "El nombre es obligatorio";
+}
+
+if (!apellido_paterno) {
+  return "El apellido paterno es obligatorio";
+}
+
+if (!apellido_materno) {
+  return "El apellido materno es obligatorio";
+}
+
+if (!curp) {
+  return "La CURP es obligatoria";
+}
+
+if (!telefono) {
+  return "El teléfono es obligatorio";
+}
+
+if (!sexo) {
+  return "El sexo es obligatorio";
+}
+
+if (!correo_electronico) {
+  return "El correo electrónico es obligatorio";
+}
+
+if (!fecha_nacimiento) {
+  return "La fecha de nacimiento es obligatoria";
+}
+
+if (!id_entidad) {
+  return "La entidad federativa es obligatoria";
+}
 
   if (!regexNumeroCuenta.test(String(numero_cuenta))) {
     return "El No de cuenta debe tener exactamente 9 numeros";
@@ -242,7 +267,10 @@ const updateAlumno = async (req, res) => {
     }
 
     // 3. Validar campos del body
-    const errorValidacion = validarAlumno(req.body);
+    const errorValidacion = validarAlumno({
+      numero_cuenta: id,
+      ...req.body,
+    });
 
     if (errorValidacion) {
       return res.status(400).json({
@@ -274,7 +302,6 @@ const updateAlumno = async (req, res) => {
     }
 
     await alumnoEncontrado.update({
-      numero_cuenta,
       nombre,
       apellido_paterno,
       apellido_materno,
@@ -286,14 +313,13 @@ const updateAlumno = async (req, res) => {
       foto_perfil,
       id_entidad,
     });
-
     return res.json({
       //alumno actualizado no es creado
       message: "Alumno actualizado correctamente",
       alumno: alumnoEncontrado,
     });
   } catch (error) {
-    return manejarErrorSequelize(res, error, "Error al crear alumno");
+    return manejarErrorSequelize(res, error, "Error al actualizar alumno");
   }
 };
 
@@ -301,7 +327,6 @@ const updateAlumno = async (req, res) => {
 const deleteAlumno = async (req, res) => {
   try {
     const { id } = req.params;
-
 
     //VALIDAMOS EL NUMERO DE CUENTA CON EL MISMO REGEX QUE EN LA CREACION Y ACTUALIZACION, PARA EVITAR ERRORES AL HACER LA CONSULTA A LA BASE DE DATOS
     if (isNaN(Number(id))) {

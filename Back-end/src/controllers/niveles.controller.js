@@ -14,6 +14,15 @@ const getNiveles = async (req, res) => {
 
 const getNivelById = async (req, res) => {
   try {
+    const { id } = req.params;
+
+    if (isNaN(Number(id))) {
+      return res.status(400).json({
+        message: "El id del nivel debe ser un numero",
+      });
+    }
+
+
     const nivel = await nivelSemestre.findByPk(req.params.id);
 
     if (!nivel) {
@@ -33,13 +42,15 @@ const getNivelById = async (req, res) => {
 
 const createNivel = async (req, res) => {
   try {
-    const { nombre_semestre } = req.body;
+    let { nombre_semestre } = req.body;
 
     if (!nombre_semestre) {
       return res.status(400).json({
         message: "El nombre del semestre es obligatorio",
       });
     }
+
+    
 
     const nuevoNivel = await nivelSemestre.create({
       nombre_semestre,

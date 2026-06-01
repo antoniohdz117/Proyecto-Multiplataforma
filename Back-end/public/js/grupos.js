@@ -1,4 +1,4 @@
-let selectedGrupoId =  null ;
+let selectedGrupoId = null;
 
 //campos que seran llenados
 
@@ -32,8 +32,10 @@ function loadGrupos() {
         orderable: false,
         render: function (data) {
           return `
-            <button class="btn btn-info btn-view-grupo">View</button>
-<button class="btn btn-danger btn-delete-grupo" data-id="${data.id_grupo}">Delete</button>`;
+            <button type="button" class="btn btn-info btn-view-grupo">View</button>
+<button type="button" class="bt n btn-danger btn-delete-grupo" data-id="${data.id_grupo}">
+  Delete
+</button>`;
         },
       },
     ],
@@ -41,6 +43,16 @@ function loadGrupos() {
 }
 
 function openCreateGrupo() {
+  //esto borrara cualquier formulario que este abierto y mostrara el de crear alumno
+  const modalElemento = document.getElementById("viewModal");
+  const modalInstance = bootstrap.Modal.getInstance(modalElemento);
+
+  if (modalInstance) {
+    modalInstance.hide();
+  }
+
+  //debo resetear el ID seleccionado para evitar problemas al crear un nuevo alumno despues de haber seleccionado uno para actualizar
+  selectedGrupoId = null;
   $("#createSection").show();
   $("#createForm").empty();
 

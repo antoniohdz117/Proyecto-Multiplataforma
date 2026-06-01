@@ -30,8 +30,10 @@ function loadNiveles() {
         orderable: false,
         render: function (data) {
           return `
-            <button class="btn btn-info btn-view-nivel">View</button>
-            <button class="btn btn-danger btn-delete-nivel" data-id="${data.id_nivel_semestre}">Delete</button>
+            <button type="button" class="btn btn-info btn-view-nivel">View</button>
+              <button type="button" class="btn btn-danger btn-delete-nivel" data-id="${data.id_nivel_semestre}">
+                Delete
+            </button>
           `;
         },
       },
@@ -40,6 +42,20 @@ function loadNiveles() {
 }
 
 function openCreateNivel() {
+
+
+
+  //esto borrara cualquier formulario que este abierto y mostrara el de crear alumno
+  const modalElemento = document.getElementById("viewModal");
+  const modalInstance = bootstrap.Modal.getInstance(modalElemento);
+
+  if(modalInstance) {
+    modalInstance.hide();
+  }
+
+  //debo resetear el ID seleccionado para evitar problemas al crear un nuevo alumno despues de haber seleccionado uno para actualizar
+  selectedNivelId = null;
+
   $("#createSection").show();
   $("#createForm").empty();
 
@@ -88,7 +104,7 @@ function modalUpdateNivel(button) {
   const form = $("#viewForm");
   form.empty();
 
-  const fieldsToShow = ["id_nivel_semestre", ...nivelFields];
+  const fieldsToShow = nivelFields;
 
   fieldsToShow.forEach((field) => {
     const readonly = field === "id_nivel_semestre" ? "readonly" : "";
@@ -175,11 +191,3 @@ function deleteNivel(button) {
     },
   });
 }
-
-$(document).on("click", ".btn-view-nivel", function () {
-  modalUpdateNivel(this);
-});
-
-$(document).on("click", ".btn-delete-nivel", function () {
-  deleteNivel(this);
-});
