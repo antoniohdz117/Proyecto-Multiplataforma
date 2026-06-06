@@ -33,9 +33,9 @@ function loadGrupos() {
         render: function (data) {
           return `
             <button type="button" class="btn btn-info btn-view-grupo">View</button>
-<button type="button" class="bt n btn-danger btn-delete-grupo" data-id="${data.id_grupo}">
-  Delete
-</button>`;
+            <button type="button" class="bt n btn-danger btn-delete-grupo" data-id="${data.id_grupo}">
+            Delete
+            </button>`;
         },
       },
     ],
