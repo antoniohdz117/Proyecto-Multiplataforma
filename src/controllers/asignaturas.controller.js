@@ -12,6 +12,8 @@ const getAsignaturas = async (req, res) => {
     }
 };
 
+
+//Busqeda por asignatura de id
 const getAsignaturaById = async (req, res) => {
     try {
         const { id } = req.params;
@@ -53,5 +55,6 @@ const createAsignatura = async (req, res) => {
 module.exports = {
     getAsignaturas,
     getAsignaturaById,
+//    updateAsignatura,
     createAsignatura,
 };
