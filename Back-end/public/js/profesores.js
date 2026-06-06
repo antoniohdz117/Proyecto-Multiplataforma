@@ -15,6 +15,33 @@ const profesorFields = [
   "sueldo",
 ];
 
+const profesorCreateFields = [
+  "nombre",
+  "apellido_paterno",
+  "apellido_materno",
+  "curp",
+  "rfc",
+  "telefono",
+  "sexo",
+  "correo_electronico",
+  "fecha_nacimiento",
+  "sueldo",
+];
+
+//calendario apra evitar errores de usuario
+
+function getInputTypeProfesor(field) {
+  if (field === "fecha_nacimiento") {
+    return "date";
+  }
+
+  if (field === "sueldo") {
+    return "number";
+  }
+
+  return "text";
+}
+
 //carga de archvios en la tabla
 function loadProfesores() {
   currentTable = "profesores";
@@ -33,7 +60,7 @@ function loadProfesores() {
     <th>fecha_nacimiento</th>
     <th>sueldo</th>
     <th>Actions</th>
-  `);  
+  `);
 
   table = $("#mainTable").DataTable({
     ajax: {
@@ -75,14 +102,27 @@ function loadProfesores() {
 
 //nuevo profesor creado por formulario
 function modalCreateProfesor() {
+  //esto borrara cualquier formulario que este abierto y mostrara el de crear alumno
+  const modalElemento = document.getElementById("viewModal");
+  const modalInstance = bootstrap.Modal.getInstance(modalElemento);
+
+  if (modalInstance) {
+    modalInstance.hide();
+  }
+
+  $("#viewForm").empty();
+
+  selectedProfesorId = null;
+
   $("#createSection").show();
   $("#createForm").empty();
 
-  profesorFields.forEach((field) => {
+  profesorCreateFields.forEach((field) => {
+    const inputType = getInputTypeProfesor(field);
     $("#createForm").append(`
       <div class="mb-2">
         <label class="form-label">${field}</label>
-        <input type="text" class="form-control" name="${field}">
+        <input type="${inputType}" class="form-control" name="${field}">
       </div>
     `);
   });
@@ -112,21 +152,41 @@ function createProfesor() {
 
     error: function (error) {
       console.log(error);
-      alert("Error al crear nuevo profesor ");
+
+      let mensaje = "Error al crear profesor";
+
+      if (error.responseJSON && error.responseJSON.message) {
+        mensaje = error.responseJSON.message;
+      }
+
+      if (error.responseJSON && error.responseJSON.errores) {
+        mensaje += "\n" + error.responseJSON.errores.join("\n");
+      }
+
+      if (error.responseJSON && error.responseJSON.campos) {
+        mensaje +=
+          "\nCampos con problema: " + error.responseJSON.campos.join(", ");
+      }
+
+      alert(mensaje);
     },
   });
 }
 
 //formulario apra actualizar Profesor
+
 function modalUpdateProfesor(button) {
   const data = table.row($(button).parents("tr")).data();
 
   selectedProfesorId = data.id_profesor;
 
+  $("#createSection").hide();
+  $("#createForm").empty();
+
   const form = $("#viewForm");
   form.empty();
 
-  const fieldsToShow = ["id_profesor", ...profesorFields];
+  const fieldsToShow = profesorFields;
 
   //aqui pedi ayuda porque se llenaba un campo que no podia delimitar como null(foto)
   fieldsToShow.forEach((field) => {
@@ -142,11 +202,17 @@ function modalUpdateProfesor(button) {
       value = "";
     }
 
+    if (field === "fecha_nacimiento" && typeof value === "string") {
+      value = value.split("T")[0];
+    }
+
+    const inputType = getInputTypeProfesor(field);
+
     form.append(`
     <div class="mb-2">
       <label class="form-label">${field}</label>
       <input
-        type="text"
+        type="${inputType}"
         class="form-control"
         name="${field}"
         value="${value}"
@@ -193,7 +259,23 @@ function updateProfesor() {
     },
     error: function (error) {
       console.log(error);
-      alert("Error al actualizar profesor");
+
+      let mensaje = "Error al actualizar profesor";
+
+      if (error.responseJSON && error.responseJSON.message) {
+        mensaje = error.responseJSON.message;
+      }
+
+      if (error.responseJSON && error.responseJSON.errores) {
+        mensaje += "\n" + error.responseJSON.errores.join("\n");
+      }
+
+      if (error.responseJSON && error.responseJSON.campos) {
+        mensaje +=
+          "\nCampos con problema: " + error.responseJSON.campos.join(", ");
+      }
+
+      alert(mensaje);
     },
   });
 }

@@ -1,8 +1,6 @@
-
 let selectedAlumnoId = null;
 
-
-// campos que seran llenados, no hacerlo dinamico 
+// campos que seran llenados, no hacerlo dinamico
 const alumnoFields = [
   "numero_cuenta",
   "nombre",
@@ -13,11 +11,17 @@ const alumnoFields = [
   "sexo",
   "correo_electronico",
   "fecha_nacimiento",
-  
+
   "id_entidad",
 ];
 
-
+//calendario apra evitar errores de usuario
+function getInputTypeAlumno(field) {
+  if (field === "fecha_nacimiento") {
+    return "date";
+  }
+  return "text";
+}
 
 //carga de archvios en la tabla
 function loadAlumnos() {
@@ -57,7 +61,7 @@ function loadAlumnos() {
       { data: "sexo" },
       { data: "correo_electronico" },
       { data: "fecha_nacimiento" },
-    //   { data: "foto_perfil" },
+      //   { data: "foto_perfil" },
       { data: "id_entidad" },
       {
         data: null,
@@ -77,17 +81,30 @@ function loadAlumnos() {
   });
 }
 
-
-//nuevo alumno creado por formulario 
+//nuevo alumno creado por formulario
 function openCreateAlumno() {
+  //esto borrara cualquier formulario que este abierto y mostrara el de crear alumno
+  const modalElemento = document.getElementById("viewModal");
+  const modalInstance = bootstrap.Modal.getInstance(modalElemento);
+
+  if (modalInstance) {
+    modalInstance.hide();
+  }
+
+  //debo resetear el ID seleccionado para evitar problemas al crear un nuevo alumno despues de haber seleccionado uno para actualizar
+  selectedAlumnoId = null;
+
   $("#createSection").show();
   $("#createForm").empty();
 
   alumnoFields.forEach((field) => {
+
+    const inputType = getInputTypeAlumno(field);
+
     $("#createForm").append(`
       <div class="mb-2">
         <label class="form-label">${field}</label>
-        <input type="text" class="form-control" name="${field}">
+        <input type="${inputType}" class="form-control" name="${field}">
       </div>
     `);
   });
@@ -103,7 +120,6 @@ function createAlumno() {
       nuevoAlumno[item.name] = item.value;
     });
 
-    
   $.ajax({
     url: "/api/alumnos",
     type: "POST",
@@ -116,10 +132,12 @@ function createAlumno() {
       table.ajax.reload();
     },
 
-
     error: function (error) {
       console.log(error);
-      alert("Error al crear nuevo aLumno ");
+
+      const mensaje = error.responseJSON?.message || "Ocurrió un error";
+
+      alert(mensaje);
     },
   });
 }
@@ -133,27 +151,34 @@ function modalUpdateAlumno(button) {
   const form = $("#viewForm");
   form.empty();
 
-  const fieldsToShow = ["numero_cuenta", ...alumnoFields];
+  const fieldsToShow = alumnoFields;
 
   //aqui pedi ayuda porque se llenaba un campo que no podia delimitar como null(foto)
   fieldsToShow.forEach((field) => {
-  const readonly = field === "numero_cuenta" ? "readonly" : "";
+    const readonly = field === "numero_cuenta" ? "readonly" : "";
 
-  let value = data[field];
+    let value = data[field];
 
-  if (value === null || value === undefined) {
-    value = "";
-  }
+    if (value === null || value === undefined) {
+      value = "";
+    }
 
-  if (typeof value === "object") {
-    value = "";
-  }
+    if (typeof value === "object") {
+      value = "";
+    }
 
-  form.append(`
+    //validar campoFecha
+    if (field === "fecha_nacimiento" && typeof value === "string" && value.includes("T")) {
+      value = value.split("T")[0];
+    }
+
+    const inputType = getInputTypeAlumno(field);
+
+    form.append(`
     <div class="mb-2">
       <label class="form-label">${field}</label>
       <input
-        type="text"
+        type="${inputType}"
         class="form-control"
         name="${field}"
         value="${value}"
@@ -161,7 +186,7 @@ function modalUpdateAlumno(button) {
       >
     </div>
   `);
-});
+  });
 
   const modal = new bootstrap.Modal(document.getElementById("viewModal"));
   modal.show();
@@ -198,14 +223,30 @@ function updateAlumno() {
       modal.hide();
       table.ajax.reload();
     },
+
+    //le pedi ayuda a la IA porque tenia problemas para mostrar los errores de validacion que vienen del back-end, ahora muestra el mensaje general, los mensajes de validacion, y los campos que tienen problemas
     error: function (error) {
       console.log(error);
-      alert("Error al actualizar alumno");
+
+      let mensaje = "Error al actualizar alumno";
+
+      if (error.responseJSON && error.responseJSON.message) {
+        mensaje = error.responseJSON.message;
+      }
+
+      if (error.responseJSON && error.responseJSON.errores) {
+        mensaje += "\n" + error.responseJSON.errores.join("\n");
+      }
+
+      if (error.responseJSON && error.responseJSON.campos) {
+        mensaje +=
+          "\nCampos con problema: " + error.responseJSON.campos.join(", ");
+      }
+
+      alert(mensaje);
     },
   });
 }
-
-
 
 //elimancion del suuario por id
 function deleteAlumno(button) {
