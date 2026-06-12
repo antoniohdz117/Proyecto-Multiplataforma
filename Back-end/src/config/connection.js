@@ -1,10 +1,20 @@
 const { Sequelize } = require('sequelize');
 require('dotenv').config();
 
+
+// Conexion a servicio de aws ec2
+const sslconfig = {
+  require: true,
+  rejectUnauthorized: false,
+};
+
 const sequelize = process.env.DATABASE_URL
   ? new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
     protocol: 'postgres',
+    dialectOptions: {
+      ssl: sslconfig,
+    },
   })
   : new Sequelize(
     process.env.DB_NAME,
@@ -14,6 +24,9 @@ const sequelize = process.env.DATABASE_URL
       host: process.env.DB_HOST,
       port: process.env.DB_PORT,
       dialect: 'postgres',
+      dialectOptions: {
+        ssl: sslconfig,
+      },
     }
   );
 
