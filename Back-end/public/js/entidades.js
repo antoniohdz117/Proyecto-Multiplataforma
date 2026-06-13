@@ -47,9 +47,9 @@ function loadEntidades() {
   });
 }
 
-//nuevo alumno creado por formulario
+//nueva entidadd creado por formulario
 function openCreateEntidad() {
-  //esto borrara cualquier formulario que este abierto y mostrara el de crear alumno
+  //esto borrara cualquier formulario que este abierto y mostrara el de crear entidad
   const modalElemento = document.getElementById("viewModal");
   const modalInstance = bootstrap.Modal.getInstance(modalElemento);
 
@@ -57,7 +57,7 @@ function openCreateEntidad() {
     modalInstance.hide();
   }
 
-  //debo resetear el ID seleccionado para evitar problemas al crear un nuevo alumno despues de haber seleccionado uno para actualizar
+  //debo resetear el ID seleccionado para evitar problemas al crear un nuevo entidad despues de haber seleccionado uno para actualizar
   selectedEntidadId = null;
   $("#createSection").show();
   $("#createForm").empty();
@@ -116,7 +116,7 @@ function createEntidad() {
   });
 }
 
-//formulario apra actualizar alumno
+//formulario apra actualizar entidad
 function modalUpdateEntidad(button) {
   const data = table.row($(button).parents("tr")).data();
 
@@ -224,12 +224,12 @@ function deleteEntidad(button) {
     url: `/api/entidades/${id}`,
     type: "DELETE",
     success: function () {
-      alert(`Entidades eliminado correctamente${id}`);
+      alert(`Entidades eliminado correctamente ${id}`);
       table.ajax.reload();
     },
     error: function (error) {
       console.log(error);
-      alert(`Error al eliminar alumno ${id}`);
+      alert(`Error al eliminar entidad ${id}`);
     },
   });
 }
