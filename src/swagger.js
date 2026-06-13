@@ -933,6 +933,7 @@ const swaggerSpec = {
         },
         responses: {
           200: {
+            
             description: "Nivel actualizado correctamente",
             content: {
               "application/json": {
