@@ -423,6 +423,58 @@ const swaggerSpec = {
           500: { $ref: "#/components/responses/Error500" },
         },
       },
+
+      put: {
+        tags: ["Profesores"],
+        summary: "Actualizar un profesor por ID",
+        parameters: [{ $ref: "#/components/parameters/IdPath" }],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/ProfesorCreate" },
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: "Profesor actualizado correctamente",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    profesor: { $ref: "#/components/schemas/Profesor" },
+                  },
+                },
+              },
+            },
+          },
+          404: { $ref: "#/components/responses/NotFound" },
+          500: { $ref: "#/components/responses/Error500" },
+        },
+      },
+
+      delete: {
+        tags: ["Profesores"],
+        summary: "Eliminar un profesor por ID",
+        parameters: [{ $ref: "#/components/parameters/IdPath" }],
+        responses: {
+          200: {
+            description: "Profesor eliminado correctamente",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/MessageResponse" },
+                example: {
+                  message: "Profesor eliminado correctamente",
+                },
+              },
+            },
+          },
+          404: { $ref: "#/components/responses/NotFound" },
+          500: { $ref: "#/components/responses/Error500" },
+        },
+      },
     },
 
     "/api/asignaturas": {
@@ -657,8 +709,59 @@ const swaggerSpec = {
           500: { $ref: "#/components/responses/Error500" },
         },
       },
-    },
 
+      put: {
+        tags: ["Grupos"],
+        summary: "Actualizar un grupo por ID",
+        parameters: [{ $ref: "#/components/parameters/IdPath" }],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/GrupoCreate" },
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: "Grupo actualizado correctamente",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    grupo: { $ref: "#/components/schemas/Grupo" },
+                  },
+                },
+              },
+            },
+          },
+          404: { $ref: "#/components/responses/NotFound" },
+          500: { $ref: "#/components/responses/Error500" },
+        },
+      },
+
+      delete: {
+        tags: ["Grupos"],
+        summary: "Eliminar un grupo por ID",
+        parameters: [{ $ref: "#/components/parameters/IdPath" }],
+        responses: {
+          200: {
+            description: "Grupo eliminado correctamente",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/MessageResponse" },
+                example: {
+                  message: "Grupo eliminado correctamente",
+                },
+              },
+            },
+          },
+          404: { $ref: "#/components/responses/NotFound" },
+          500: { $ref: "#/components/responses/Error500" },
+        },
+      },
+    },
     "/api/periodos": {
       get: {
         tags: ["Periodos"],
@@ -807,6 +910,59 @@ const swaggerSpec = {
                   properties: {
                     nivel: { $ref: "#/components/schemas/Nivel" },
                   },
+                },
+              },
+            },
+          },
+          404: { $ref: "#/components/responses/NotFound" },
+          500: { $ref: "#/components/responses/Error500" },
+        },
+      },
+
+      put: {
+        tags: ["Niveles"],
+        summary: "Actualizar un nivel o semestre por ID",
+        parameters: [{ $ref: "#/components/parameters/IdPath" }],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/NivelCreate" },
+            },
+          },
+        },
+        responses: {
+          200: {
+            
+            description: "Nivel actualizado correctamente",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    nivel: { $ref: "#/components/schemas/Nivel" },
+                  },
+                },
+              },
+            },
+          },
+          404: { $ref: "#/components/responses/NotFound" },
+          500: { $ref: "#/components/responses/Error500" },
+        },
+      },
+
+      delete: {
+        tags: ["Niveles"],
+        summary: "Eliminar un nivel o semestre por ID",
+        parameters: [{ $ref: "#/components/parameters/IdPath" }],
+        responses: {
+          200: {
+            description: "Nivel eliminado correctamente",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/MessageResponse" },
+                example: {
+                  message: "Nivel eliminado correctamente",
                 },
               },
             },

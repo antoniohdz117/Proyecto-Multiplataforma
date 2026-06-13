@@ -26,12 +26,6 @@
           linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)),
           url("/images/fondo.png");
 
-          
-          
-          
-          
-          
-          
         background-size: cover;
         background-position: center;
       }
@@ -100,59 +94,95 @@
 
   <body>
     <div class="login-page">
-  <div class="login-left"></div>
+      <div class="login-left"></div>
 
-  <div class="login-right">
-    <div class="login-card">
-      <div class="login-title">
-        <h2>FCA</h2>
-        <p>Sistema de administración escolar falso</p>
-        <p>Ingrese con cualquier cuenta</p>
+      <div class="login-right">
+        <div class="login-card">
+          <div class="login-title">
+            <h2>FCA</h2>
+            <p>Sistema de administración escolar falso</p>
+            <p>Ingrese con el sigueinte usuario y contraseña</p>
+            <p>numero de cuenta: 320284645</p>
+            <p>contraseña: 27092004</p>
+          </div>
+
+          <form id="loginForm">
+            <div class="mb-3">
+              <label class="form-label">Número de cuenta</label>
+              <input
+                type="text"
+                id="numero_cuenta"
+                class="form-control"
+                placeholder="Ingresa tu número de cuenta"
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Contraseña</label>
+              <input
+                type="password"
+                id="fecha_nacimiento"
+                class="form-control"
+                placeholder="Ingresa tu fecha de nacimiento"
+                required
+              />
+            </div>
+
+            <button type="submit" class="btn btn-login w-100">
+              Iniciar sesión
+            </button>
+          </form>
+        </div>
       </div>
-
-      <form id="loginForm">
-        <div class="mb-3">
-          <label class="form-label">Número de cuenta</label>
-          <input
-            type="text"
-            id="numeroCuenta"
-            class="form-control"
-            placeholder="Ingresa tu número de cuenta"
-            required
-          />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label">Contraseña</label>
-          <input
-            type="password"
-            id="password"
-            class="form-control"
-            placeholder="Ingresa tu contraseña"
-            required
-          />
-        </div>
-
-        <button type="submit" class="btn btn-login w-100">
-          Iniciar sesión
-        </button>
-      </form>
-    </div>
-  </div>
-</div>
     </div>
 
+    <!-- aqui si me ayudo chat tenia duda como hacer esto  -->
     <script>
       document
         .getElementById("loginForm")
-        .addEventListener("submit", function (event) {
+        .addEventListener("submit", async function (event) {
           event.preventDefault();
 
-          const numeroCuenta = document.getElementById("numeroCuenta").value;
-          const password = document.getElementById("password").value;
+          const numeroCuenta = document
+            .getElementById("numero_cuenta")
+            .value.trim();
+          const fechaNacimiento = document
+            .getElementById("fecha_nacimiento")
+            .value.trim();
 
-          if (numeroCuenta && password) {
+          if (!numeroCuenta || !fechaNacimiento) {
+            alert("Debes ingresar número de cuenta y fecha de nacimiento");
+            return;
+          }
+
+          try {
+            const response = await fetch("/api/auth/login", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                numero_cuenta: numeroCuenta,
+                fecha_nacimiento: fechaNacimiento,
+              }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+              alert(data.message || "Error al iniciar sesión");
+              return;
+            }
+
+            localStorage.setItem("user", JSON.stringify(data.user));
+
+            
+
             window.location.href = "/index";
+          } catch (error) {
+            console.error("Error en login:", error);
+            alert("Error de conexión con el servidor");
           }
         });
     </script>

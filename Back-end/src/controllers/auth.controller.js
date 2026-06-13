@@ -1,48 +1,82 @@
 const { alumno } = require("../models/alumno.model");
-const { profesor } = require("../models/profesor.model");
 
+const regexNumeroCuenta = /^[0-9]{6,12}$/;
+const regexFecha = /^\d{8}$/;
+
+//fucnon para convertir la fecha de nacimiento del formato DDMMYYYY al formato YYYY-MM-DD
+const convertirFecha = (fecha) => {
+  const dia = fecha.substring(0, 2);
+  const mes = fecha.substring(2, 4);
+  const anio = fecha.substring(4, 8);
+
+  return `${anio}-${mes}-${dia}`;
+};
 
 const authenticateUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    
-    // Buscar el usuario en la base de datos
-    let user = await alumno.findOne({ where: { email } });
-    let role = 'alumno';
-    if (!user) {
-      user = await profesor.findOne({ where: { email } });
-      role = 'profesor';
+    let { numero_cuenta, fecha_nacimiento } = req.body;
+
+    if (!numero_cuenta) {
+      return res.status(400).json({
+        message: "El número de cuenta es obligatorio",
+      });
     }
 
-    if (!user) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
-    }
-    
-    // Verificar la contraseña (aquí deberías usar hashing en producción)
-    if (user.password !== password) {
-      return res.status(401).json({ message: "Contraseña incorrecta" });
+    if (!fecha_nacimiento) {
+      return res.status(400).json({
+        message: "La fecha de nacimiento es obligatoria",
+      });
     }
 
-    // Generar un token de autenticación (aquí podrías usar JWT) pero no se hacerlo con JS solo con springboot
-    //const token = "fake-jwt-token"; // Reemplaza esto con la generación real de tokens
+    numero_cuenta = String(numero_cuenta).trim();
+    fecha_nacimiento = String(fecha_nacimiento).trim();
+
+    if (!regexNumeroCuenta.test(numero_cuenta)) {
+      return res.status(400).json({
+        message: "El número de cuenta solo debe contener números",
+      });
+    }
+
+    if (!regexFecha.test(fecha_nacimiento)) {
+      return res.status(400).json({
+        message:
+          "La fecha de nacimiento debe tener formato DDMMYYYY. Ejemplo: 27092003",
+      });
+    }
+
+    const fechaConvertida = convertirFecha(fecha_nacimiento);
+
+    const user = await alumno.findOne({
+      where: {
+        numero_cuenta,
+        fecha_nacimiento: fechaConvertida,
+      },
+    });
+
+    if (!user) {
+      return res.status(401).json({
+        message: "Número de cuenta o fecha de nacimiento incorrectos",
+      });
+    }
 
     return res.json({
-      message: "Autenticación exitosa",
+      
       user: {
-        id: user.id,
-        email: user.email,
-        role
-      }
+        numero_cuenta: user.numero_cuenta,
+        nombre: user.nombre,
+        apellido_paterno: user.apellido_paterno,
+        apellido_materno: user.apellido_materno,
+        role: "alumno",
+      },
     });
   } catch (error) {
     return res.status(500).json({
       message: "Error al autenticar usuario",
-        error: error.message,
+      error: error.message,
     });
-}
+  }
 };
 
 module.exports = {
-    authenticateUser,
-
-}
+  authenticateUser
+};
