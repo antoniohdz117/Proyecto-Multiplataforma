@@ -1,9 +1,24 @@
 const { Sequelize } = require('sequelize');
 require('dotenv').config();
 
+const useSSL = process.env.DB_SSL === 'true';
+
+const sequelizeOptions = {
+  dialect: 'postgres',
+};
+
+if (useSSL) {
+  sequelizeOptions.dialectOptions = {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  };
+}
+
 const sequelize = process.env.DATABASE_URL
   ? new Sequelize(process.env.DATABASE_URL, {
-      dialect: 'postgres',
+      ...sequelizeOptions,
       protocol: 'postgres',
     })
   : new Sequelize(
@@ -11,13 +26,14 @@ const sequelize = process.env.DATABASE_URL
       process.env.DB_USER,
       process.env.DB_PASSWORD,
       {
+        ...sequelizeOptions,
         host: process.env.DB_HOST,
         port: process.env.DB_PORT,
-        dialect: 'postgres',
       }
     );
 
 module.exports = {
   sequelize
 };
-//JERRAMIENTAS QUE OCUPAMOS ES CON EJS, EXPRESS
+
+// HERRAMIENTAS QUE OCUPAMOS: EJS, EXPRESS
