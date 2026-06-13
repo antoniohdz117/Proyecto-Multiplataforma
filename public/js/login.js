@@ -34,6 +34,7 @@ $(document).ready(function () {
 
         if (error.responseJSON && error.responseJSON.message) {
           mensaje = error.responseJSON.message;
+          
         }
 
         alert(mensaje);
