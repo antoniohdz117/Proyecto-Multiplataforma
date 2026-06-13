@@ -15,6 +15,8 @@ app.use(express.static(path.join(__dirname, "../public")));
 
 // Middleware para recibir JSON
 app.use(express.json());
+//para recibir datos de formularios
+app.use(express.urlencoded({ extended: true }));
 
 
 // Ruta principal
@@ -41,7 +43,8 @@ const periodosRoutes = require("./routes/periodos.routes");
 const nivelesRoutes = require("./routes/niveles.routes");
 const ofertasRoutes = require("./routes/ofertas.routes");
 const cursosRoutes = require("./routes/cursos.routes");
-
+//ruta para la autenticación
+const authRoutes = require("./routes/auth.routes");
 // Endpoints
 app.use("/api/cursos", cursosRoutes);
 app.use("/api/ofertas", ofertasRoutes);
@@ -53,5 +56,7 @@ app.use("/api/asignaturas", asignaturasRoutes);
 app.use("/api/profesores", profesoresRoutes);
 app.use("/api/alumnos", alumnosRoutes);
 app.use("/api/entidades", entidadesRoutes);
+//se agrega la ruta para la autenticación
+app.use("/api/auth", authRoutes);
 
 module.exports = app;

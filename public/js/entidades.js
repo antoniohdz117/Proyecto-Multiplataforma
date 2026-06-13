@@ -224,7 +224,7 @@ function deleteEntidad(button) {
     url: `/api/entidades/${id}`,
     type: "DELETE",
     success: function () {
-      alert(`Entidades eliminado correctamente${id}`);
+      alert(`Entidades eliminado correctamente ${id}`);
       table.ajax.reload();
     },
     error: function (error) {
